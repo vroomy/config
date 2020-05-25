@@ -100,6 +100,7 @@ func (c *Config) loadInclude(include string) (err error) {
 	return
 }
 
+// GetGroup will return group with name
 func (c *Config) GetGroup(name string) (g *Group, err error) {
 	if len(name) == 0 {
 		return

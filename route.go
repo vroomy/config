@@ -33,7 +33,7 @@ type Route struct {
 
 	// Target plug-in handler
 	// Note: This is only used when the target is a plugin handler
-	HttpHandlers []httpserve.Handler `toml:"-"`
+	HTTPHandlers []httpserve.Handler `toml:"-"`
 
 	// Route name/description
 	Name string `toml:"name"`
@@ -54,6 +54,7 @@ func (r *Route) String() string {
 	return fmt.Sprintf(routeFmt, r.HTTPPath, r.Target, r.Handlers)
 }
 
+// Init will init a route
 func (r *Route) Init(p *plugins.Plugins) (err error) {
 	if len(r.Handlers) > 0 {
 		if err = r.initPlugins(p); err != nil {
@@ -95,7 +96,7 @@ func (r *Route) Init(p *plugins.Plugins) (err error) {
 
 	// Set root as the target
 	r.root, _ = filepath.Split(r.HTTPPath)
-	r.HttpHandlers = append(r.HttpHandlers, r.serveHTTP)
+	r.HTTPHandlers = append(r.HTTPHandlers, r.serveHTTP)
 	return
 }
 
@@ -106,7 +107,7 @@ func (r *Route) initPlugins(p *plugins.Plugins) (err error) {
 			return
 		}
 
-		r.HttpHandlers = append(r.HttpHandlers, h)
+		r.HTTPHandlers = append(r.HTTPHandlers, h)
 	}
 
 	return
