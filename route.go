@@ -47,6 +47,8 @@ type Route struct {
 	Target string `toml:"target"`
 	// Plugin handlers
 	Handlers []string `toml:"handlers"`
+
+	RequestExample *Request
 }
 
 // String will return a formatted version of the route

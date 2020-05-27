@@ -26,6 +26,9 @@ type Group struct {
 	HTTPHandlers []httpserve.Handler `toml:"-"`
 
 	G httpserve.Group `toml:"-"`
+
+	// Requests are keys to the request map which includes example request/response data for docs and tests
+	Requests map[string]*Request
 }
 
 // Init will init a group
