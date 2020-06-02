@@ -59,6 +59,9 @@ type Config struct {
 
 	// Plugin keys as they are referenced by the plugins store
 	PluginKeys []string
+
+	ExampleRequests  map[string]*Request
+	ExampleResponses map[string]*Response
 }
 
 func (c *Config) loadIncludes() (err error) {
@@ -100,6 +103,7 @@ func (c *Config) loadInclude(include string) (err error) {
 	return
 }
 
+// GetGroup will return group with name
 func (c *Config) GetGroup(name string) (g *Group, err error) {
 	if len(name) == 0 {
 		return
@@ -130,15 +134,97 @@ type IncludeConfig struct {
 	// Specify which plugins are in scope
 	Plugins []string `toml:"plugins"`
 
+	// Commands are the dynamic commands specified in config
+	CommandEntries []*Command `toml:"command"`
+	// Flags are the dynamic flags specified in config
+	FlagEntries []*Flag `toml:"flag"`
+
 	// Groups are the route groups
 	Groups []*Group `toml:"group"`
 	// Routes are the routes to listen for and serve
 	Routes []*Route `toml:"route"`
 
-	// Commands are the dynamic commands specified in config
-	CommandEntries []*Command `toml:"command"`
-	// Flags are the dynamic flags specified in config
-	FlagEntries []*Flag `toml:"flag"`
+	// Requests are example requests for docs/tests
+	Requests []*Request `toml:"request"`
+	// Responses are example responses for docs/tests
+	Responses []*Response `toml:"response"`
+}
+
+// Request is an example requests for docs/tests
+type Request struct {
+	// ID
+	Name  string `toml:"name"`
+	Group string `toml:"group"`
+
+	Query map[string]string `toml:"query"`
+	Body  map[string]string `toml:"body"`
+
+	Responses        []string    `toml:"responses"`
+	ResponseExamples []*Response `toml:"-"`
+
+	// Links
+	Parent        string `toml:"parent"`
+	parentExample *Request
+}
+
+// InheritFrom ensures family tree is populated and overridden
+func (r *Request) InheritFrom(parents map[string]*Request) {
+	if parent, ok := parents[r.Parent]; ok {
+		if parent.Parent != "" && parent.parentExample == nil {
+			// Recursive call to populate family tree from the bottom up
+			parent.InheritFrom(parents)
+		}
+
+		if r.Query == nil {
+			r.Query = parent.Query
+		}
+
+		if r.Body == nil {
+			r.Body = parent.Body
+		}
+
+		if len(parent.Responses) > 0 {
+			r.Responses = append(r.Responses, parent.Responses...)
+
+			if len(parent.ResponseExamples) == 0 {
+				r.ResponseExamples = append(r.ResponseExamples, parent.ResponseExamples...)
+			}
+		}
+	}
+}
+
+// Response is an example response for docs/tests
+type Response struct {
+	// ID
+	Name string `toml:"name"`
+
+	// Links
+	Parent        string `toml:"parent"`
+	parentExample *Response
+
+	// Inheritable vals
+	Code int               `toml:"code"`
+	Data map[string]string `toml:"data"`
+}
+
+// InheritFrom ensures family tree is populated and overridden
+func (r *Response) InheritFrom(parents map[string]*Response) {
+	if parent, ok := parents[r.Parent]; ok {
+		if parent.Parent != "" && parent.parentExample == nil {
+			// Recursive call to populate family tree from the bottom up
+			parent.InheritFrom(parents)
+		}
+
+		if r.Code == 0 {
+			r.Code = parent.Code
+		}
+
+		if r.Data == nil {
+			r.Data = parent.Data
+		}
+
+		r.parentExample = parent
+	}
 }
 
 func (i *IncludeConfig) merge(merge *IncludeConfig) {
@@ -154,9 +240,12 @@ func (i *IncludeConfig) merge(merge *IncludeConfig) {
 
 	i.Plugins = append(i.Plugins, merge.Plugins...)
 
+	i.CommandEntries = append(i.CommandEntries, merge.CommandEntries...)
+	i.FlagEntries = append(i.FlagEntries, merge.FlagEntries...)
+
 	i.Groups = append(i.Groups, merge.Groups...)
 	i.Routes = append(i.Routes, merge.Routes...)
 
-	i.CommandEntries = append(i.CommandEntries, merge.CommandEntries...)
-	i.FlagEntries = append(i.FlagEntries, merge.FlagEntries...)
+	i.Requests = append(i.Requests, merge.Requests...)
+	i.Responses = append(i.Responses, merge.Responses...)
 }
