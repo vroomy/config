@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"path/filepath"
 	"plugin"
 	"strings"
@@ -43,6 +44,11 @@ func trimSlash(in string) (out string) {
 
 func getHandlerParts(handlerKey string) (key, handler string, args []string, err error) {
 	spl := strings.SplitN(handlerKey, ".", 2)
+	if len(spl) != 2 {
+		err = fmt.Errorf("expected key and handler, received \"%s\"", handlerKey)
+		return
+	}
+
 	key = spl[0]
 	handler = spl[1]
 
