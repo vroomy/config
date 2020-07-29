@@ -1,7 +1,6 @@
 package config
 
 import (
-	"fmt"
 	"path/filepath"
 	"plugin"
 	"strings"
@@ -54,7 +53,7 @@ func getHandlerParts(handlerKey string) (key, handler string, args []string, err
 
 	handler = spl[0]
 	argsStr := spl[1]
-	fmt.Println("args str", argsStr)
+
 	if argsStr[len(argsStr)-1] != ')' {
 		err = ErrExpectedEndParen
 		return
