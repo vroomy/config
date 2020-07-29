@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"path/filepath"
 	"plugin"
 	"strings"
@@ -42,7 +43,7 @@ func trimSlash(in string) (out string) {
 }
 
 func getHandlerParts(handlerKey string) (key, handler string, args []string, err error) {
-	spl := strings.Split(handlerKey, ".")
+	spl := strings.SplitN(handlerKey, ".", 2)
 	key = spl[0]
 	handler = spl[1]
 
@@ -53,6 +54,7 @@ func getHandlerParts(handlerKey string) (key, handler string, args []string, err
 
 	handler = spl[0]
 	argsStr := spl[1]
+	fmt.Println("args str", argsStr)
 	if argsStr[len(argsStr)-1] != ')' {
 		err = ErrExpectedEndParen
 		return
