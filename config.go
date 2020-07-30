@@ -32,8 +32,8 @@ func NewConfig(loc string) (cfg *Config, err error) {
 		c.Dir = "./"
 	}
 
-	if cfg.Environment == nil {
-		cfg.Environment = make(map[string]string)
+	if c.Environment == nil {
+		c.Environment = make(map[string]string)
 	}
 
 	cfg = &c
