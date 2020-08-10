@@ -7,5 +7,5 @@ require (
 	github.com/Hatch1fy/errors v0.4.80
 	github.com/Hatch1fy/fileserver v0.4.87
 	github.com/Hatch1fy/httpserve v0.4.86
-	github.com/vroomy/plugins v0.4.96
+	github.com/vroomy/plugins v0.4.98
 )
