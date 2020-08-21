@@ -7,7 +7,7 @@ import (
 	"path"
 
 	"github.com/BurntSushi/toml"
-	"github.com/Hatch1fy/errors"
+	"github.com/hatchify/errors"
 )
 
 const (

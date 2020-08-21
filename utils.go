@@ -6,8 +6,8 @@ import (
 	"plugin"
 	"strings"
 
-	"github.com/Hatch1fy/errors"
 	"github.com/Hatch1fy/httpserve"
+	"github.com/hatchify/errors"
 	"github.com/vroomy/plugins"
 )
 
