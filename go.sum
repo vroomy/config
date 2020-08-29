@@ -6,8 +6,8 @@ github.com/Hatch1fy/filecacher v0.4.89 h1:47m3AboY+feePWUHOjblVnD/m5uOFA7ibpyXJ7
 github.com/Hatch1fy/filecacher v0.4.89/go.mod h1:1JY6uO3MlUjaGtEDvKNIapY13jeyx9S8QByzznvXznc=
 github.com/Hatch1fy/fileserver v0.4.89 h1:yRJqB3K4+FdH54/5SznPtus0AcRNqj77TFxomc2zFok=
 github.com/Hatch1fy/fileserver v0.4.89/go.mod h1:vo2rR44WdVbAtFscfvec0Da27nREe+gyI7y6HKikY1M=
-github.com/Hatch1fy/httpserve v0.4.87 h1:8+QYlHVmXfYAhrYThgtxfqRAYCHWPrRqGDGL5PX4w2s=
-github.com/Hatch1fy/httpserve v0.4.87/go.mod h1:1EzI0TnjpTTltDN8zIkWqT8gavOEcnp6D0ksv917/bs=
+github.com/Hatch1fy/httpserve v0.4.88 h1:bFGqIyUa8rKjE/gZfP9G4OCyIuLqS5t5yCy3m8RFCJE=
+github.com/Hatch1fy/httpserve v0.4.88/go.mod h1:1EzI0TnjpTTltDN8zIkWqT8gavOEcnp6D0ksv917/bs=
 github.com/Hatch1fy/poller v0.4.87 h1:lK9gPrBBY8w6RWL9kERGf8c4GMV5HRgnFoZydul9Rd8=
 github.com/Hatch1fy/poller v0.4.87/go.mod h1:kdNUo1RE2WVPMSgnYBGLtDpYqITyXybzTe8IM5DzS9k=
 github.com/hatchify/atoms v0.4.79 h1:LGH5CYcOi8peub2rSBzebjgODEiR8LBMxjWCQZaKygA=
