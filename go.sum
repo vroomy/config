@@ -6,8 +6,6 @@ github.com/Hatch1fy/filecacher v0.4.89 h1:47m3AboY+feePWUHOjblVnD/m5uOFA7ibpyXJ7
 github.com/Hatch1fy/filecacher v0.4.89/go.mod h1:1JY6uO3MlUjaGtEDvKNIapY13jeyx9S8QByzznvXznc=
 github.com/Hatch1fy/fileserver v0.4.89 h1:yRJqB3K4+FdH54/5SznPtus0AcRNqj77TFxomc2zFok=
 github.com/Hatch1fy/fileserver v0.4.89/go.mod h1:vo2rR44WdVbAtFscfvec0Da27nREe+gyI7y6HKikY1M=
-github.com/Hatch1fy/httpserve v0.4.88 h1:bFGqIyUa8rKjE/gZfP9G4OCyIuLqS5t5yCy3m8RFCJE=
-github.com/Hatch1fy/httpserve v0.4.88/go.mod h1:1EzI0TnjpTTltDN8zIkWqT8gavOEcnp6D0ksv917/bs=
 github.com/Hatch1fy/poller v0.4.87 h1:lK9gPrBBY8w6RWL9kERGf8c4GMV5HRgnFoZydul9Rd8=
 github.com/Hatch1fy/poller v0.4.87/go.mod h1:kdNUo1RE2WVPMSgnYBGLtDpYqITyXybzTe8IM5DzS9k=
 github.com/hatchify/atoms v0.4.79 h1:LGH5CYcOi8peub2rSBzebjgODEiR8LBMxjWCQZaKygA=
@@ -20,5 +18,7 @@ github.com/hatchify/queue v0.4.79 h1:lQUznTai79WmoB5t/EGn5u3RtTinNPUHnfkY2CV0VUE
 github.com/hatchify/queue v0.4.79/go.mod h1:b976dT/lR/zCD+aXGI4a9t1LJZlW8ukI6BPxxih0ehY=
 github.com/hatchify/scribe v0.4.85 h1:WAk+15H9vS107uM4SOq1+/0H3rjsC6YuCMn0+kaeOBE=
 github.com/hatchify/scribe v0.4.85/go.mod h1:Z8YLt9euurwMOwav9pqQrsMCOodHv6/LZ7IaltMykgQ=
+github.com/vroomy/httpserve v0.4.89 h1:KhsW1I2UXmITT3T+qFlY2tmM6qQJMU2OxJgoz4kC8+0=
+github.com/vroomy/httpserve v0.4.89/go.mod h1:4XQgi3WeT3BCWiORloDs6HpHlrZNvReeISUzQeUCYzc=
 github.com/vroomy/plugins v0.4.100 h1:ov8qPfeOPZYUzj5XpcE9jaK37/PDAu/mSnkXkrpoVRY=
 github.com/vroomy/plugins v0.4.100/go.mod h1:6VeVHsbWqSLS2Xjs2bawlZcnYPJLtQg6tSDWWP9yK3M=
