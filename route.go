@@ -7,6 +7,7 @@ import (
 
 	"github.com/Hatch1fy/fileserver"
 	"github.com/hatchify/errors"
+	"github.com/vroomy/common"
 	"github.com/vroomy/httpserve"
 	"github.com/vroomy/plugins"
 )
@@ -33,7 +34,7 @@ type Route struct {
 
 	// Target plug-in handler
 	// Note: This is only used when the target is a plugin handler
-	HTTPHandlers []httpserve.Handler `toml:"-"`
+	HTTPHandlers []common.Handler `toml:"-"`
 
 	// Route name/description
 	Name string `toml:"name"`
@@ -104,7 +105,7 @@ func (r *Route) Init(p *plugins.Plugins) (err error) {
 
 func (r *Route) initPlugins(p *plugins.Plugins) (err error) {
 	for _, handlerKey := range r.Handlers {
-		var h httpserve.Handler
+		var h common.Handler
 		if h, err = newPluginHandler(p, handlerKey); err != nil {
 			return
 		}
@@ -124,17 +125,17 @@ func (r *Route) getKey(requestPath string) (key string, err error) {
 	return getKeyFromRequestPath(r.root, requestPath)
 }
 
-func (r *Route) serveHTTP(ctx *httpserve.Context) (res httpserve.Response) {
+func (r *Route) serveHTTP(ctx common.Context) (res common.Response) {
 	var (
 		key string
 		err error
 	)
 
-	if key, err = r.getKey(ctx.Request.URL.Path); err != nil {
+	if key, err = r.getKey(ctx.GetRequest().URL.Path); err != nil {
 		return httpserve.NewTextResponse(400, []byte(err.Error()))
 	}
 
-	if err := r.fs.Serve(key, ctx.Writer, ctx.Request); err != nil {
+	if err := r.fs.Serve(key, ctx.GetWriter(), ctx.GetRequest()); err != nil {
 		err = fmt.Errorf("Error serving %s: %v", key, err)
 		return httpserve.NewTextResponse(400, []byte(err.Error()))
 	}
