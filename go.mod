@@ -7,6 +7,6 @@ require (
 	github.com/Hatch1fy/fileserver v0.4.89
 	github.com/hatchify/errors v0.4.82
 	github.com/vroomy/common v0.1.6
-	github.com/vroomy/httpserve v0.4.91
+	github.com/vroomy/httpserve v0.4.92
 	github.com/vroomy/plugins v0.4.100
 )
