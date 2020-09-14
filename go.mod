@@ -8,5 +8,5 @@ require (
 	github.com/hatchify/fileserver v0.4.91
 	github.com/vroomy/common v0.1.6
 	github.com/vroomy/httpserve v0.4.92
-	github.com/vroomy/plugins v0.4.101
+	github.com/vroomy/plugins v0.4.102
 )
