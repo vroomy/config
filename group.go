@@ -24,7 +24,7 @@ type Group struct {
 	// Plugin handlers
 	Handlers []string `toml:"handlers"`
 
-	HTTPHandlers []common.Handler `toml:"-"`
+	HTTPHandlers []interface{} `toml:"-"`
 
 	G httpserve.Group `toml:"-"`
 

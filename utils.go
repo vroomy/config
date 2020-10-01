@@ -92,7 +92,7 @@ func newPluginHandler(p *plugins.Plugins, handlerKey string) (h common.Handler, 
 	}
 
 	switch v := sym.(type) {
-	case func(common.Context) common.Response:
+	case func(common.Context) *common.Response:
 		h = v
 	case func(args ...string) (common.Handler, error):
 		if h, err = v(args...); err != nil {
