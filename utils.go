@@ -8,6 +8,7 @@ import (
 
 	"github.com/hatchify/errors"
 	"github.com/vroomy/common"
+	"github.com/vroomy/httpserve"
 	"github.com/vroomy/plugins"
 )
 
@@ -70,7 +71,7 @@ func getHandlerParts(handlerKey string) (key, handler string, args []string, err
 	return
 }
 
-func newPluginHandler(p *plugins.Plugins, handlerKey string) (h common.Handler, err error) {
+func newPluginHandler(p *plugins.Plugins, handlerKey string) (h httpserve.Handler, err error) {
 	var (
 		key     string
 		handler string
@@ -92,13 +93,50 @@ func newPluginHandler(p *plugins.Plugins, handlerKey string) (h common.Handler, 
 	}
 
 	switch v := sym.(type) {
-	case func(common.Context) *common.Response:
+	case httpserve.Handler:
 		h = v
+	case common.Handler:
+		h = newHandler(v)
 	case func(args ...string) (common.Handler, error):
-		if h, err = v(args...); err != nil {
+		var ch common.Handler
+		if ch, err = v(args...); err != nil {
 			return
 		}
+
+		h = newHandler(ch)
 	}
 
 	return
+}
+
+func newHandler(c common.Handler) httpserve.Handler {
+	return func(ctx *httpserve.Context) httpserve.Response {
+		resp := c(ctx)
+		switch {
+		case resp == nil:
+			return nil
+		case resp.Adopted:
+			return httpserve.NewAdoptResponse()
+		}
+
+		switch resp.StatusCode {
+		case 204:
+			return httpserve.NewNoContentResponse()
+		case 301, 302:
+			return redirectHandler(resp)
+		}
+
+		switch resp.ContentType {
+		case "json":
+			return httpserve.NewJSONResponse(resp.StatusCode, resp.Value)
+		case "jsonp":
+			return httpserve.NewJSONPResponse(resp.Callback, resp.Value)
+		case "text":
+			return textHandler(resp)
+		case "xml":
+			return xmlHandler(resp)
+		}
+
+		return nil
+	}
 }

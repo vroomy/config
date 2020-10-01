@@ -8,6 +8,7 @@ import (
 
 	"github.com/BurntSushi/toml"
 	"github.com/hatchify/errors"
+	"github.com/hatchify/scribe"
 )
 
 const (
@@ -16,6 +17,8 @@ const (
 	// ErrProtectedFlag is returned when a protected flag is used
 	ErrProtectedFlag = errors.Error("cannot use protected flag")
 )
+
+var out = scribe.New("Configuration")
 
 // NewConfig will return a new configuration
 func NewConfig(loc string) (cfg *Config, err error) {
