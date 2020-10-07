@@ -7,7 +7,6 @@ import (
 
 	"github.com/hatchify/errors"
 	"github.com/hatchify/fileserver"
-	"github.com/vroomy/common"
 	"github.com/vroomy/httpserve"
 	"github.com/vroomy/plugins"
 )
@@ -33,8 +32,8 @@ type Route struct {
 	key string
 
 	// Target plug-in handler
-	// Note: This is only used when the target is a plugin handler
-	HTTPHandlers []common.Handler `toml:"-"`
+	// Note: The value can be either common.Handler or httpserve.Handler
+	HTTPHandlers []httpserve.Handler `toml:"-"`
 
 	// Route name/description
 	Name string `toml:"name"`
@@ -105,7 +104,7 @@ func (r *Route) Init(p *plugins.Plugins) (err error) {
 
 func (r *Route) initPlugins(p *plugins.Plugins) (err error) {
 	for _, handlerKey := range r.Handlers {
-		var h common.Handler
+		var h httpserve.Handler
 		if h, err = newPluginHandler(p, handlerKey); err != nil {
 			return
 		}
@@ -125,7 +124,7 @@ func (r *Route) getKey(requestPath string) (key string, err error) {
 	return getKeyFromRequestPath(r.root, requestPath)
 }
 
-func (r *Route) serveHTTP(ctx common.Context) (res common.Response) {
+func (r *Route) serveHTTP(ctx *httpserve.Context) (res httpserve.Response) {
 	var (
 		key string
 		err error

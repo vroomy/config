@@ -2,7 +2,6 @@ package config
 
 import (
 	"github.com/hatchify/errors"
-	"github.com/vroomy/common"
 	"github.com/vroomy/httpserve"
 	"github.com/vroomy/plugins"
 )
@@ -24,7 +23,7 @@ type Group struct {
 	// Plugin handlers
 	Handlers []string `toml:"handlers"`
 
-	HTTPHandlers []common.Handler `toml:"-"`
+	HTTPHandlers []httpserve.Handler `toml:"-"`
 
 	G httpserve.Group `toml:"-"`
 
@@ -35,7 +34,7 @@ type Group struct {
 // Init will init a group
 func (g *Group) Init(p *plugins.Plugins) (err error) {
 	for _, handlerKey := range g.Handlers {
-		var h common.Handler
+		var h httpserve.Handler
 		if h, err = newPluginHandler(p, handlerKey); err != nil {
 			return
 		}
