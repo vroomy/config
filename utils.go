@@ -93,9 +93,9 @@ func newPluginHandler(p *plugins.Plugins, handlerKey string) (h httpserve.Handle
 	}
 
 	switch v := sym.(type) {
-	case httpserve.Handler:
+	case func(*httpserve.Context) httpserve.Response:
 		h = v
-	case common.Handler:
+	case func(common.Context) *common.Response:
 		h = newHandler(v)
 	case func(args ...string) (common.Handler, error):
 		var ch common.Handler
