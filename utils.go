@@ -104,6 +104,10 @@ func newPluginHandler(p *plugins.Plugins, handlerKey string) (h httpserve.Handle
 		}
 
 		h = newHandler(ch)
+
+	default:
+		err = fmt.Errorf("invalid handler signature encountered: %T is not supported", sym)
+		return
 	}
 
 	return
