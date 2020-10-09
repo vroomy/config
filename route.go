@@ -5,8 +5,8 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/gdbu/fileserver"
 	"github.com/hatchify/errors"
-	"github.com/hatchify/fileserver"
 	"github.com/vroomy/httpserve"
 	"github.com/vroomy/plugins"
 )

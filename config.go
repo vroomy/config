@@ -7,8 +7,8 @@ import (
 	"path"
 
 	"github.com/BurntSushi/toml"
+	"github.com/gdbu/scribe"
 	"github.com/hatchify/errors"
-	"github.com/hatchify/scribe"
 )
 
 const (
