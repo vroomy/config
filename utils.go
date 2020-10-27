@@ -97,6 +97,10 @@ func newPluginHandler(p *plugins.Plugins, handlerKey string) (h httpserve.Handle
 		h = v
 	case func(common.Context) *common.Response:
 		h = newHandler(v)
+	case func(args ...string) (httpserve.Handler, error):
+		if h, err = v(args...); err != nil {
+			return
+		}
 	case func(args ...string) (common.Handler, error):
 		var ch common.Handler
 		if ch, err = v(args...); err != nil {
