@@ -8,7 +8,6 @@ import (
 
 	"github.com/hatchify/errors"
 	"github.com/vroomy/common"
-	"github.com/vroomy/httpserve"
 	"github.com/vroomy/plugins"
 )
 
@@ -71,7 +70,7 @@ func getHandlerParts(handlerKey string) (key, handler string, args []string, err
 	return
 }
 
-func newPluginHandler(p *plugins.Plugins, handlerKey string) (h httpserve.Handler, err error) {
+func newPluginHandler(p *plugins.Plugins, handlerKey string) (h common.Handler, err error) {
 	var (
 		key     string
 		handler string
@@ -93,21 +92,12 @@ func newPluginHandler(p *plugins.Plugins, handlerKey string) (h httpserve.Handle
 	}
 
 	switch v := sym.(type) {
-	case func(*httpserve.Context):
-		h = v
 	case func(common.Context):
-		h = newHandler(v)
-	case func(args ...string) (httpserve.Handler, error):
+		h = v
+	case func(args ...string) (common.Handler, error):
 		if h, err = v(args...); err != nil {
 			return
 		}
-	case func(args ...string) (common.Handler, error):
-		var ch common.Handler
-		if ch, err = v(args...); err != nil {
-			return
-		}
-
-		h = newHandler(ch)
 
 	default:
 		err = fmt.Errorf("invalid handler signature encountered: %T is not supported", sym)
@@ -115,10 +105,4 @@ func newPluginHandler(p *plugins.Plugins, handlerKey string) (h httpserve.Handle
 	}
 
 	return
-}
-
-func newHandler(c common.Handler) httpserve.Handler {
-	return func(ctx *httpserve.Context) {
-		c(ctx)
-	}
 }

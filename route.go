@@ -7,7 +7,7 @@ import (
 
 	"github.com/gdbu/fileserver"
 	"github.com/hatchify/errors"
-	"github.com/vroomy/httpserve"
+	"github.com/vroomy/common"
 	"github.com/vroomy/plugins"
 )
 
@@ -17,9 +17,6 @@ const (
 	// ErrExpectedEndParen is returned when an ending parenthesis is missing
 	ErrExpectedEndParen = errors.Error("expected ending parenthesis")
 )
-
-type route struct {
-}
 
 // Route represents a listening route
 type Route struct {
@@ -32,8 +29,7 @@ type Route struct {
 	key string
 
 	// Target plug-in handler
-	// Note: The value can be either common.Handler or httpserve.Handler
-	HTTPHandlers []httpserve.Handler `toml:"-"`
+	HTTPHandlers []common.Handler `toml:"-"`
 
 	// Route name/description
 	Name string `toml:"name"`
@@ -104,7 +100,7 @@ func (r *Route) Init(p *plugins.Plugins) (err error) {
 
 func (r *Route) initPlugins(p *plugins.Plugins) (err error) {
 	for _, handlerKey := range r.Handlers {
-		var h httpserve.Handler
+		var h common.Handler
 		if h, err = newPluginHandler(p, handlerKey); err != nil {
 			return
 		}
@@ -124,7 +120,7 @@ func (r *Route) getKey(requestPath string) (key string, err error) {
 	return getKeyFromRequestPath(r.root, requestPath)
 }
 
-func (r *Route) serveHTTP(ctx *httpserve.Context) {
+func (r *Route) serveHTTP(ctx common.Context) {
 	var (
 		key string
 		err error
