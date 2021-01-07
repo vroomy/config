@@ -93,9 +93,9 @@ func newPluginHandler(p *plugins.Plugins, handlerKey string) (h httpserve.Handle
 	}
 
 	switch v := sym.(type) {
-	case func(*httpserve.Context) httpserve.Response:
+	case func(*httpserve.Context):
 		h = v
-	case func(common.Context) *common.Response:
+	case func(common.Context):
 		h = newHandler(v)
 	case func(args ...string) (httpserve.Handler, error):
 		if h, err = v(args...); err != nil {
@@ -118,33 +118,7 @@ func newPluginHandler(p *plugins.Plugins, handlerKey string) (h httpserve.Handle
 }
 
 func newHandler(c common.Handler) httpserve.Handler {
-	return func(ctx *httpserve.Context) httpserve.Response {
-		resp := c(ctx)
-		switch {
-		case resp == nil:
-			return nil
-		case resp.Adopted:
-			return httpserve.NewAdoptResponse()
-		}
-
-		switch resp.StatusCode {
-		case 204:
-			return httpserve.NewNoContentResponse()
-		case 301, 302:
-			return redirectHandler(resp)
-		}
-
-		switch resp.ContentType {
-		case "json":
-			return httpserve.NewJSONResponse(resp.StatusCode, resp.Value)
-		case "jsonp":
-			return httpserve.NewJSONPResponse(resp.Callback, resp.Value)
-		case "text":
-			return textHandler(resp)
-		case "xml":
-			return xmlHandler(resp)
-		}
-
-		return nil
+	return func(ctx *httpserve.Context) {
+		c(ctx)
 	}
 }

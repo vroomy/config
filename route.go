@@ -124,19 +124,20 @@ func (r *Route) getKey(requestPath string) (key string, err error) {
 	return getKeyFromRequestPath(r.root, requestPath)
 }
 
-func (r *Route) serveHTTP(ctx *httpserve.Context) (res httpserve.Response) {
+func (r *Route) serveHTTP(ctx *httpserve.Context) {
 	var (
 		key string
 		err error
 	)
 
-	if key, err = r.getKey(ctx.GetRequest().URL.Path); err != nil {
-		return httpserve.NewTextResponse(400, []byte(err.Error()))
+	if key, err = r.getKey(ctx.Request().URL.Path); err != nil {
+		ctx.WriteString(400, "text/plain", err.Error())
 	}
 
-	if err := r.fs.Serve(key, ctx.GetWriter(), ctx.GetRequest()); err != nil {
+	if err := r.fs.Serve(key, ctx.Writer(), ctx.Request()); err != nil {
 		err = fmt.Errorf("Error serving %s: %v", key, err)
-		return httpserve.NewTextResponse(400, []byte(err.Error()))
+		ctx.WriteString(400, "text/plain", err.Error())
+		return
 	}
 
 	return
