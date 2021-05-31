@@ -3,7 +3,6 @@ package config
 import (
 	"github.com/hatchify/errors"
 	"github.com/vroomy/common"
-	"github.com/vroomy/plugins"
 )
 
 const (
@@ -29,18 +28,4 @@ type Group struct {
 
 	// Requests are keys to the request map which includes example request/response data for docs and tests
 	Requests map[string]*Request
-}
-
-// Init will init a group
-func (g *Group) Init(p *plugins.Plugins) (err error) {
-	for _, handlerKey := range g.Handlers {
-		var h common.Handler
-		if h, err = newPluginHandler(p, handlerKey); err != nil {
-			return
-		}
-
-		g.HTTPHandlers = append(g.HTTPHandlers, h)
-	}
-
-	return
 }
