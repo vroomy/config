@@ -55,6 +55,8 @@ type Config struct {
 	TLSPort uint16 `toml:"tlsPort"`
 	TLSDir  string `toml:"tlsDir"`
 
+	ErrorLogger func(error)
+
 	IncludeConfig
 
 	PerformUpdate bool `toml:"-"`
